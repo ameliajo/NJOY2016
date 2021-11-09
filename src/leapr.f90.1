@@ -473,7 +473,6 @@ contains
    call start(itemp,p,np,deltab,tev)
    sc=1
    if (lat.eq.1) sc=therm/tev
-   open (unit = 3, file = "my_Tn.dat")
 
    !--start the phonon expansion sum with t1
    do i=1,np
@@ -495,12 +494,6 @@ contains
    enddo
    npl=np
 
-
-    write(3,*) "n =            1"
-    do j=1,np
-      write(3,*) tlast(j)
-    enddo 
-
    !--do the phonon expansion sum
    do j=1,nbeta
       maxt(j)=nalpha+1
@@ -510,15 +503,6 @@ contains
    do n=2,maxn
       npn=np+npl-1
       call convol(p,tlast,tnow,np,npl,npn,deltab,ckk)
-
-      write(3,*) "------" 
-    write(3,*) "n =  ",n
-    do j=1,npn
-      write(3,*) tnow(j)
-    enddo 
-
-
-      !write(*,*) n,tnow(1),tnow(2),tnow(3)
       if (iprint.eq.2) write(nsyso,'(5x,i5,f12.5)') n,ckk
       do j=1,nalpha
          al=alpha(j)*sc/arat
@@ -542,8 +526,6 @@ contains
       enddo
       npl=npn
    enddo
-      write(3,*) "------" 
-   close(3)
 
    !--print out start of sct range for each beta
    if (iprint.ne.0) then
